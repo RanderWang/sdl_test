@@ -76,12 +76,14 @@ int err_pcm_open_check(snd_pcm_t *handle)
 {
 	int err;
 
-	//err = err_pcm_open_stream_check(handle);
-	//if (err)
-		//return err;
+#ifdef ERR_CHECK
+	err = err_pcm_open_stream_check(handle);
+	if (err)
+		return err;
 
 	err = err_pcm_open_name_check(handle);
 	if (err)
 		return err;
+#endif
 }
 

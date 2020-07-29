@@ -131,9 +131,11 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 		return -EINVAL;
 	}
 
+#ifdef ERR_CHECK
 	err = err_pcm_hw_params_set_access(handle, params);
 	if (err)
 		return err;
+#endif
 
 	err = snd_pcm_hw_params_set_access(handle, params,
 				   SND_PCM_ACCESS_RW_INTERLEAVED);
@@ -142,9 +144,11 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 		return -EINVAL;
 	}
 
+#ifdef ERR_CHECK
 	err = err_pcm_hw_params_set_format(handle, params);
 	if (err)
 		return err;
+#endif
 
 	err = snd_pcm_hw_params_set_format (handle, params, hw_params->format);
 	if (err)
@@ -153,9 +157,11 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 		return -EINVAL;
 	}
 
+#ifdef ERR_CHECK
 	err = err_pcm_hw_params_set_channels(handle, params);
 	if (err)
 		return err;
+#endif
 
 	err = snd_pcm_hw_params_set_channels(handle, params, hw_params->channels);
 	if (err < 0) {
@@ -163,9 +169,11 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 		return -EINVAL;
 	}
 
+#ifdef ERR_CHECK
 	err = err_pcm_hw_params_set_rate_near(handle, params);
 	if (err)
 		return err;
+#endif
 
 	err = snd_pcm_hw_params_set_rate_near(handle, params, &hw_params->rate, 0);
 	if (err < 0) {
@@ -173,9 +181,11 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 		return -EINVAL;
 	}
 
+#ifdef ERR_CHECK
 	err = err_pcm_hw_params(handle, params);
 	if (err)
 		return err;
+#endif
 
 	err = snd_pcm_hw_params (handle, params);
 	if (err) {

@@ -23,5 +23,7 @@ struct hwparams{
 
 int err_pcm_open_check(snd_pcm_t *handle);
 int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params);
-
+int err_pcm_prepare_check(snd_pcm_t *handle);
+int err_pcm_writei_check(snd_pcm_t *handle);
+int err_pcm_close_check(snd_pcm_t *handle);
 

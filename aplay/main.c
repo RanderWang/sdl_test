@@ -20,9 +20,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <endian.h>
-#include "gettext.h"
 #include "formats.h"
-#include "version.h"
 #include "err_pcm.h"
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
@@ -111,6 +109,20 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
+
+	err = err_pcm_prepare_check(handle);
+	if (err < 0) {
+		error("pcm prepare error %s", snd_strerror(err));
+		return -1;
+	}
+
+	err = err_pcm_writei_check(handle);
+	if (err < 0) {
+		error("pcm prepare error %s", snd_strerror(err));
+		return -1;
+	}
+
+	err_pcm_close_check(handle);
 
 	return 0;
 }
