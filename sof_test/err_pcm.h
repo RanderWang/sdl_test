@@ -21,6 +21,8 @@ struct hwparams{
 } while (0)
 
 
+#define ERR_CHECK 1
+
 int err_pcm_open_check(snd_pcm_t *handle);
 int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params);
 int err_pcm_prepare_check(snd_pcm_t *handle);
