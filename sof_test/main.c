@@ -23,46 +23,17 @@
 #include "formats.h"
 #include "err_pcm.h"
 
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
-
 static snd_pcm_t *handle;
 static int open_mode = 0;
 
 static snd_pcm_format_t format[] = {
-	SND_PCM_FORMAT_S8 ,
-	/** Unsigned 8 bit */
-	SND_PCM_FORMAT_U8,
 	/** Signed 16 bit Little Endian */
 	SND_PCM_FORMAT_S16_LE,
-	/** Signed 16 bit Big Endian */
-	SND_PCM_FORMAT_S16_BE,
-	/** Unsigned 16 bit Little Endian */
-	SND_PCM_FORMAT_U16_LE,
-	/** Unsigned 16 bit Big Endian */
-	SND_PCM_FORMAT_U16_BE,
-	/** Signed 24 bit Little Endian using low three bytes in 32-bit word */
-	SND_PCM_FORMAT_S24_LE,
-	/** Signed 24 bit Big Endian using low three bytes in 32-bit word */
-	SND_PCM_FORMAT_S24_BE,
-	/** Unsigned 24 bit Little Endian using low three bytes in 32-bit word */
-	SND_PCM_FORMAT_U24_LE,
-	/** Unsigned 24 bit Big Endian using low three bytes in 32-bit word */
-	SND_PCM_FORMAT_U24_BE,
 	/** Signed 32 bit Little Endian */
 	SND_PCM_FORMAT_S32_LE,
-	/** Signed 32 bit Big Endian */
-	SND_PCM_FORMAT_S32_BE,
-	/** Unsigned 32 bit Little Endian */
-	SND_PCM_FORMAT_U32_LE,
-	/** Unsigned 32 bit Big Endian */
-	SND_PCM_FORMAT_U32_BE,
-	/** Float 32 bit Little Endian, Range -1.0 to 1.0 */
-	SND_PCM_FORMAT_FLOAT_LE,
-	/** Float 32 bit Big Endian, Range -1.0 to 1.0 */
-	SND_PCM_FORMAT_FLOAT_BE
 };
 
-static int rate[] = {44100, 48000 };
+static int rate[] = {44100, 48000, 96000, 192000};
 static int channels[] = { 1, 2, 4, 6, 8};
 
 int main(int argc, char *argv[])
@@ -78,19 +49,19 @@ int main(int argc, char *argv[])
 
 	err = err_pcm_open_check(handle);
 	if (err < 0) {
-		error("audio open error check failed: %s", snd_strerror(err));
+		printf("audio open error check failed: %s", snd_strerror(err));
 		return -1;
 	}
 
 	err = snd_pcm_open(&handle, pcm_name, stream, open_mode);
 	if (err < 0) {
-		error("audio open error: %s", snd_strerror(err));
+		printf("audio open error: %s", snd_strerror(err));
 		return -1;
 	}
 
 	err = snd_pcm_info(handle, info);
 	if (err < 0) {
-		error("info error: %s", snd_strerror(err));
+		printf("info error: %s", snd_strerror(err));
 		return -1;
 	}
 
@@ -103,8 +74,8 @@ int main(int argc, char *argv[])
 
 				err = err_pcm_hw_param_check(handle, &hw_params);
 				if (err < 0) {
-					error("hw param error: %s", snd_strerror(err));
-					return -1;
+					printf("hw param error: %s", snd_strerror(err));
+					//return -1;
 				}
 			}
 		}
@@ -112,13 +83,13 @@ int main(int argc, char *argv[])
 
 	err = err_pcm_prepare_check(handle);
 	if (err < 0) {
-		error("pcm prepare error %s", snd_strerror(err));
+		printf("pcm prepare error %s", snd_strerror(err));
 		return -1;
 	}
 
 	err = err_pcm_writei_check(handle);
 	if (err < 0) {
-		error("pcm prepare error %s", snd_strerror(err));
+		printf("pcm prepare error %s", snd_strerror(err));
 		return -1;
 	}
 

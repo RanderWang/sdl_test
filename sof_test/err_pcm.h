@@ -14,14 +14,13 @@ struct hwparams{
 	unsigned int rate;
 };
 
-#define error(...) do {\
-	fprintf(stderr, "%s:%d: ", __func__, __LINE__); \
-	fprintf(stderr, __VA_ARGS__); \
-	putc('\n', stderr); \
-} while (0)
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
-
-#define ERR_CHECK 1
+#define ERR_OPEN_CHECK 0
+#define ERR_HW_PARAM_CHECK 0
+#define ERR_PREPARE_CHECK 0
+#define ERR_WRITE_CHECK 0
+#define ERR_CLOSE_CHECK 0
 
 int err_pcm_open_check(snd_pcm_t *handle);
 int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params);

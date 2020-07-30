@@ -18,13 +18,13 @@ int err_pcm_writei(snd_pcm_t *handle)
 
 	err = snd_pcm_writei(NULL, buf, 128);
 	if (err == 128) {
-		error("failed to detect error when writing data to NULL pcm %d", err);
+		printf("failed to detect error when writing data to NULL pcm %d", err);
 		return -EINVAL;
 	}
 
 	err = snd_pcm_writei(handle, buf, 256);
 	if (err == 256) {
-		error("failed to detect error when writing data of 256 byte to pcm %d", err);
+		printf("failed to detect error when writing data of 256 byte to pcm %d", err);
 		return -EINVAL;
 	}
 
@@ -36,7 +36,7 @@ int err_pcm_writei_check(snd_pcm_t *handle)
 	char buf[128];
 	int err;
 
-#ifdef ERR_CHECK
+#if ERR_WRITE_CHECK
 	err = err_pcm_writei(handle);
 	if (err)
 		return err;
@@ -44,7 +44,7 @@ int err_pcm_writei_check(snd_pcm_t *handle)
 
 	err = snd_pcm_writei(handle, buf, 128);
 	if (err != 128) {
-		error("failed to write data to pcm %d", err);
+		printf("failed to write data to pcm %d", err);
 		return -EINVAL;
 	}
 
