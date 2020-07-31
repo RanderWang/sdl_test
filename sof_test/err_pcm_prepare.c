@@ -17,13 +17,13 @@ int err_pcm_prepare()
 
 	err = snd_pcm_prepare(NULL);
 	if (!err) {
-		printf("failed to check NULL hand");
+		printf("failed to check NULL hand\n");
 		return -EINVAL;
 	}
 
 	err = snd_pcm_prepare(&handle);
 	if (!err) {
-		printf("failed to check NULL hand");
+		printf("failed to check NULL hand\n");
 		return -EINVAL;
 	}
 
@@ -42,7 +42,7 @@ int err_pcm_prepare_check(snd_pcm_t *handle)
 
 	err = snd_pcm_prepare(handle);
 	if (err) {
-		printf("failed to prepare pcm %s", snd_strerror(err));
+		printf("failed to prepare pcm %s\n", snd_strerror(err));
 		return err;
 	}
 

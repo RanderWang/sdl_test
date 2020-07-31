@@ -22,9 +22,10 @@ struct hwparams{
 #define ERR_WRITE_CHECK 0
 #define ERR_CLOSE_CHECK 0
 
-int err_pcm_open_check(snd_pcm_t *handle);
+int err_pcm_open_check(snd_pcm_t *handle, snd_pcm_stream_t stream);
 int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params);
 int err_pcm_prepare_check(snd_pcm_t *handle);
 int err_pcm_writei_check(snd_pcm_t *handle);
+int err_pcm_readi_check(snd_pcm_t *handle);
 int err_pcm_close_check(snd_pcm_t *handle);
 

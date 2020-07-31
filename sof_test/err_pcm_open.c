@@ -10,78 +10,77 @@
 #include <alsa/asoundlib.h>
 #include "err_pcm.h"
 
-static snd_pcm_stream_t stream = SND_PCM_STREAM_PLAYBACK;
 static int open_mode = 0;
 
-int err_pcm_open_name_check(snd_pcm_t *handle)
+int err_pcm_open_name_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 {
 	int err;
 
-	err = snd_pcm_open(&handle, "abd", stream, open_mode);
+	err = snd_pcm_open(&handle, "abd\n", stream, open_mode);
 	if (!err) {
-		printf("audio open error is not detected for NULL");
+		printf("audio open error is not detected for NULL\n");
 		return -EINVAL;
 	}
 
-	err = snd_pcm_open(&handle, "0,100", stream, open_mode);
+	err = snd_pcm_open(&handle, "0,100\n", stream, open_mode);
 	if (!err) {
-		printf("audio open error is not detected for non-existence device:0,100");
+		printf("audio open error is not detected for non-existence device:0,100\n");
 		return -EINVAL;
 	}
 
 	return 0;
 }
 
-int err_pcm_open_stream_check(snd_pcm_t *handle)
+int err_pcm_open_stream_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 {
 	char *pcm_name = "default";
 	int err;
 
 	err = snd_pcm_open(&handle, pcm_name, -1, open_mode);
 	if (!err) {
-		printf("audio open error is not detected for incorrect stream direction -1");
+		printf("audio open error is not detected for incorrect stream direction -1\n");
 		return -EINVAL;
 	}
 
 	err = snd_pcm_open(&handle, pcm_name, 4, open_mode);
 	if (!err) {
-		printf("audio open error is not detected for incorrect stream direction 4");
+		printf("audio open error is not detected for incorrect stream direction 4\n");
 		return -EINVAL;
 	}
 
 	return 0;
 }
 
-int err_pcm_open_mode_check(snd_pcm_t *handle)
+int err_pcm_open_mode_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 {
 	char *pcm_name = "default";
 	int err;
 
 	err = snd_pcm_open(&handle, pcm_name, stream, -1);
 	if (!err) {
-		printf("audio open error is not detected for incorrect open mode -1");
+		printf("audio open error is not detected for incorrect open mode -1\n");
 		return -EINVAL;
 	}
 
 	err = snd_pcm_open(&handle, pcm_name, stream, 0x100000);
 	if (!err) {
-		printf("audio open error is not detected for incorrect open mode 0x100000");
+		printf("audio open error is not detected for incorrect open mode 0x100000\n");
 		return -EINVAL;
 	}
 
 	return 0;
 }
 
-int err_pcm_open_check(snd_pcm_t *handle)
+int err_pcm_open_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 {
 	int err;
 
 #if ERR_OPEN_CHECK
-	err = err_pcm_open_stream_check(handle);
+	err = err_pcm_open_stream_check(handle, stream);
 	if (err)
 		return err;
 
-	err = err_pcm_open_name_check(handle);
+	err = err_pcm_open_name_check(handle, stream);
 	if (err)
 		return err;
 #endif

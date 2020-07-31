@@ -47,7 +47,61 @@ int main(int argc, char *argv[])
 	int err;
 	int i, j, k;
 
-	err = err_pcm_open_check(handle);
+	printf("======== start to check playback ========\n");
+
+	err = err_pcm_open_check(handle, stream);
+	if (err < 0) {
+		printf("audio open error check failed: %s\n", snd_strerror(err));
+		return -1;
+	}
+
+	err = snd_pcm_open(&handle, pcm_name, stream, open_mode);
+	if (err < 0) {
+		printf("audio open error: %s\n", snd_strerror(err));
+		return -1;
+	}
+
+	err = snd_pcm_info(handle, info);
+	if (err < 0) {
+		printf("info error: %s\n", snd_strerror(err));
+		return -1;
+	}
+
+	for (i = 0; i < ARRAY_SIZE(format); i++) {
+		for (j = 0; j < ARRAY_SIZE(rate); j++) {
+			for (k = 0; k < ARRAY_SIZE(channels); k++) {
+				hw_params.format = format[i];
+				hw_params.rate = rate[j];
+				hw_params.channels = channels[k];
+
+				err = err_pcm_hw_param_check(handle, &hw_params);
+				if (err < 0) {
+					printf("hw param error: %s\n", snd_strerror(err));
+					return -1;
+				}
+			}
+		}
+	}
+
+	err = err_pcm_prepare_check(handle);
+	if (err < 0) {
+		printf("pcm prepare error %s\n", snd_strerror(err));
+		return -1;
+	}
+
+	err = err_pcm_writei_check(handle);
+	if (err < 0) {
+		printf("pcm prepare error %s\n", snd_strerror(err));
+		return -1;
+	}
+
+	err_pcm_close_check(handle);
+
+capture:
+	stream = 1;
+	printf("======== start to check capture ========\n");
+
+	err = err_pcm_open_check(handle, stream);
 	if (err < 0) {
 		printf("audio open error check failed: %s", snd_strerror(err));
 		return -1;
@@ -87,7 +141,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	err = err_pcm_writei_check(handle);
+	err = err_pcm_readi_check(handle);
 	if (err < 0) {
 		printf("pcm prepare error %s", snd_strerror(err));
 		return -1;

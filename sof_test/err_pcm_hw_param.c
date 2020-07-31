@@ -17,13 +17,13 @@ int err_pcm_hw_params_set_access(snd_pcm_t *handle, snd_pcm_hw_params_t *params)
 
 	err = snd_pcm_hw_params_set_access(handle, params, -1);
 	if (!err) {
-		printf("failed to detect error for access mode -1");
+		printf("failed to detect error for access mode -1\n");
 		return -EINVAL;
 	}
 
 	err = snd_pcm_hw_params_set_access(handle, params, SND_PCM_ACCESS_LAST + 1);
 	if (!err) {
-		printf("failed to detect error for access mode -1");
+		printf("failed to detect error for access mode -1\n");
 		return -EINVAL;
 	}
 	
@@ -67,20 +67,20 @@ int err_pcm_hw_params_set_format(snd_pcm_t *handle, snd_pcm_hw_params_t *params)
 
 	err = snd_pcm_hw_params_set_format(handle, params, -1);
 	if (!err) {
-		printf("failed to detect incorrect format -1");
+		printf("failed to detect incorrect format -1\n");
 		return -EINVAL;
 	}
 	
 	err = snd_pcm_hw_params_set_format(handle, params, SND_PCM_FORMAT_LAST + 1);
 	if (!err) {
-		printf("failed to detect incorrect format %d", SND_PCM_FORMAT_LAST + 1);
+		printf("failed to detect incorrect format %d\n", SND_PCM_FORMAT_LAST + 1);
 		return -EINVAL;
 	}
 
 	for (i = 0; i < ARRAY_SIZE(unsupported_format); i++) {
 		err = snd_pcm_hw_params_set_format(handle, params, unsupported_format[i]);
 		if (!err) {
-			printf("failed to detect incorrect format %d", i);
+			printf("failed to detect incorrect format %d\n", i);
 			return -EINVAL;
 		}
 	}
@@ -94,13 +94,13 @@ int err_pcm_hw_params_set_channels(snd_pcm_t *handle, snd_pcm_hw_params_t *param
 
 	err = snd_pcm_hw_params_set_channels(handle, params, -1);
 	if (!err ) {
-		printf("failed to detect incorrect Channels count  -1%d", err);
+		printf("failed to detect incorrect Channels count  -1%d\n", err);
 		return -EINVAL;
 	}
 
 	err = snd_pcm_hw_params_set_channels(handle, params, 16);
 	if (!err ) {
-		printf("failed to detect incorrect Channels count 16 %d", err);
+		printf("failed to detect incorrect Channels count 16 %d\n", err);
 		return -EINVAL;
 	}
 
@@ -115,7 +115,7 @@ int err_pcm_hw_params_set_rate_near(snd_pcm_t *handle, snd_pcm_hw_params_t *para
 
 	err = snd_pcm_hw_params_set_rate_near(handle, params, &rate, &dir);
 	if (!err ) {
-		printf("failed to detect incorrect rate dir  2 %d", err);
+		printf("failed to detect incorrect rate dir  2 %d\n", err);
 		return -EINVAL;
 	}
 
@@ -123,7 +123,7 @@ int err_pcm_hw_params_set_rate_near(snd_pcm_t *handle, snd_pcm_hw_params_t *para
 	dir = 1;
 	err = snd_pcm_hw_params_set_rate_near(handle, params, &rate, &dir);
 	if (!err ) {
-		printf("failed to detect incorrect rate dir 1 for -1 %d", err);
+		printf("failed to detect incorrect rate dir 1 for -1 %d\n", err);
 		return -EINVAL;
 	}
 
@@ -139,13 +139,13 @@ int err_pcm_hw_params(snd_pcm_t *handle, snd_pcm_hw_params_t *params)
 
 	err = snd_pcm_hw_params(handle, NULL);
 	if (!err ) {
-		printf("failed to detect incorrect params %d", err);
+		printf("failed to detect incorrect params %d\n", err);
 		return -EINVAL;
 	}
 
 	err = snd_pcm_hw_params(handle, blank_params);
 	if (!err ) {
-		printf("failed to detect blank params %d", err);
+		printf("failed to detect blank params %d\n", err);
 		return -EINVAL;
 	}
 
@@ -166,7 +166,7 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 	snd_pcm_sw_params_alloca(&swparams);
 	err = snd_pcm_hw_params_any(handle, params);
 	if (err < 0) {
-		printf("Broken configuration for this PCM: no configurations available");
+		printf("Broken configuration for this PCM: no configurations available\n");
 		return -EINVAL;
 	}
 
@@ -179,7 +179,7 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 	err = snd_pcm_hw_params_set_access(handle, params,
 				   SND_PCM_ACCESS_RW_INTERLEAVED);
 	if (err < 0) {
-		printf("Access type not available %d", err);
+		printf("Access type not available %d\n", err);
 		return -EINVAL;
 	}
 
@@ -192,7 +192,7 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 	err = snd_pcm_hw_params_set_format (handle, params, hw_params->format);
 	if (err)
 	{
-		printf("cannot set sample format %x (%s)\n", hw_params->format, snd_strerror (err));
+		printf("cannot set sample format %x (%s)\n\n", hw_params->format, snd_strerror (err));
 		return -EINVAL;
 	}
 
@@ -204,7 +204,7 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 
 	err = snd_pcm_hw_params_set_channels(handle, params, hw_params->channels);
 	if (err < 0) {
-		printf("Channels count non available %d", err);
+		printf("Channels count non available %d\n", err);
 		return -EINVAL;
 	}
 
@@ -216,7 +216,7 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 
 	err = snd_pcm_hw_params_set_rate_near(handle, params, &hw_params->rate, 0);
 	if (err < 0) {
-		printf("failed to init rate %d", hw_params->rate);
+		printf("failed to init rate %d\n", hw_params->rate);
 		return -EINVAL;
 	}
 
@@ -228,7 +228,7 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 
 	err = snd_pcm_hw_params (handle, params);
 	if (err) {
-		printf("failled to init hw params %d", err);
+		printf("failled to init hw params %d\n", err);
 		return -EINVAL;
 	}
 }

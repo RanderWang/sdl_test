@@ -18,13 +18,13 @@ int err_pcm_close()
 
 	err = snd_pcm_close(NULL);
 	if (!err) {
-		printf("failed to check NULL hand");
+		printf("failed to check NULL hand\n");
 		return -EINVAL;
 	}
 
 	err = snd_pcm_close(&handle);
 	if (!err) {
-		printf("failed to check NULL hand");
+		printf("failed to check NULL hand\n");
 		return -EINVAL;
 	}
 
