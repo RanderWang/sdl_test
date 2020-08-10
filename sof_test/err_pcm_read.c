@@ -17,13 +17,19 @@ int err_pcm_readi(snd_pcm_t *handle)
 	int err;
 
 	err = snd_pcm_readi(NULL, buf, 128);
-	if (err == 128) {
+	if (err > 0) {
+		printf("failed to detect error when writing data to NULL pcm %d\n", err);
+		return -EINVAL;
+	}
+
+	err = snd_pcm_readi((snd_pcm_t *)(0xdeadbeef), buf, 128);
+	if (err > 128) {
 		printf("failed to detect error when writing data to NULL pcm %d\n", err);
 		return -EINVAL;
 	}
 
 	err = snd_pcm_readi(handle, buf, 256);
-	if (err == 256) {
+	if (err > 256) {
 		printf("failed to detect error when writing data of 256 byte to pcm %d\n", err);
 		return -EINVAL;
 	}
