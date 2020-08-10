@@ -36,7 +36,7 @@ int err_pcm_readi_check(snd_pcm_t *handle)
 	char buf[128];
 	int err;
 
-#if ERR_WRITE_CHECK
+#if ERR_READ_CHECK
 	err = err_pcm_readi(handle);
 	if (err)
 		return err;

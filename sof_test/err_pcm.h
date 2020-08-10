@@ -19,6 +19,7 @@ struct hwparams{
 #define ERR_OPEN_CHECK 0
 #define ERR_HW_PARAM_CHECK 0
 #define ERR_PREPARE_CHECK 0
+#define ERR_READ_CHECK 0
 #define ERR_WRITE_CHECK 0
 #define ERR_CLOSE_CHECK 0
 
