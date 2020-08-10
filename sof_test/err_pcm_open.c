@@ -96,7 +96,7 @@ int err_pcm_open_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 	int err;
 
 #if ERR_OPEN_CHECK
-        err = err_pcm_open_handle_check(handle, stream;)
+        err = err_pcm_open_handle_check(handle, stream);
 	if (err)
 		return err;
 
@@ -108,7 +108,7 @@ int err_pcm_open_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 	if (err)
 		return err;
 
-	err = err_pcm_open_mode_check(handle, stream)
+	err = err_pcm_open_mode_check(handle, stream);
 	if (err)
 		return err;
 #endif
