@@ -174,6 +174,20 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 	err = err_pcm_hw_params_set_access(handle, params);
 	if (err)
 		return err;
+
+	err = snd_pcm_hw_params_set_access(NULL, params,
+				SND_PCM_ACCESS_RW_INTERLEAVED);
+	if (!err) {
+		printf("failed to detect null handle\n");
+		return -EINVAL;
+	}
+
+        err = snd_pcm_hw_params_set_access((snd_pcm_t *)(0xdeadbeef),
+			           params,SND_PCM_ACCESS_RW_INTERLEAVED);
+	if (!err) {
+	       printf("failed to detect invalid handle\n");
+	       return -EINVAL;
+	}
 #endif
 
 	err = snd_pcm_hw_params_set_access(handle, params,
@@ -189,7 +203,7 @@ int err_pcm_hw_param_check(snd_pcm_t *handle, struct hwparams *hw_params)
 		return err;
 #endif
 
-	err = snd_pcm_hw_params_set_format (handle, params, hw_params->format);
+	err = snd_pcm_hw_params_set_format(handle, params, hw_params->format);
 	if (err)
 	{
 		printf("cannot set sample format %x (%s)\n\n", hw_params->format, snd_strerror (err));
