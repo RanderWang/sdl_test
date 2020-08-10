@@ -12,6 +12,26 @@
 
 static int open_mode = 0;
 
+int err_pcm_open_handle_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
+{
+	snd_pcm_t *inv_handle = (snd_pcm_t *)0xdeadbeef;
+	int err;
+	err = snd_pcm_open(NULL, "default", stream, open_mode);
+	if (!err) {
+		printf("audio open error is not detected for NULL handle\n");
+		return -EINVAL;
+	}
+
+	err = snd_pcm_open(&inv_handle, "default", stream, open_mode);
+	if (!err) {
+		printf("audio open error is not detected for invalide handle\n");
+		return -EINVAL;
+	}
+
+	return 0;
+}
+
+
 int err_pcm_open_name_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 {
 	int err;
@@ -76,11 +96,19 @@ int err_pcm_open_check(snd_pcm_t *handle, snd_pcm_stream_t stream)
 	int err;
 
 #if ERR_OPEN_CHECK
+        err = err_pcm_open_handle_check(handle, stream;)
+	if (err)
+		return err;
+
 	err = err_pcm_open_stream_check(handle, stream);
 	if (err)
 		return err;
 
 	err = err_pcm_open_name_check(handle, stream);
+	if (err)
+		return err;
+
+	err = err_pcm_open_mode_check(handle, stream)
 	if (err)
 		return err;
 #endif

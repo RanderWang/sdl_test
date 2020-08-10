@@ -13,7 +13,7 @@
 
 int err_pcm_close()
 {
-	int handle = 0xdeedbeef;
+	snd_pcm_t *handle = (snd_pcm_t *)0xdeedbeef;
 	int err;
 
 	err = snd_pcm_close(NULL);
@@ -22,7 +22,7 @@ int err_pcm_close()
 		return -EINVAL;
 	}
 
-	err = snd_pcm_close(&handle);
+	err = snd_pcm_close(handle);
 	if (!err) {
 		printf("failed to check NULL hand\n");
 		return -EINVAL;
