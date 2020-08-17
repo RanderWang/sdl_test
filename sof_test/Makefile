@@ -22,10 +22,10 @@ main.o:main.c
 sof_test:main.o err_pcm_open.o err_pcm_hw_param.o err_pcm_prepare.o err_pcm_write.o err_pcm_read.o err_pcm_close.o
 	gcc -O0 -g -o sof_test main.o err_pcm_open.o err_pcm_hw_param.o err_pcm_prepare.o err_pcm_write.o err_pcm_read.o err_pcm_close.o -lrt -lasound -lm -ldl -lpthread
 
-aplay:sof_test.c
-	gcc -O0 -g sof_test.c -I../include -lrt -lasound -lm -ldl -lpthread -o aplay
+unprivileged_access_check:unprivileged_access_check.c
+	gcc -O0 -g unprivileged_access_check.c -lrt -lm -ldl -lpthread -o unprivileged_access_check
 
 clean:
-	rm sof_test *.o
+	rm sof_test *.o unprivileged_access_check
 
 
